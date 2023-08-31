@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\{
     CentroCusto,
     Lancamento,
+    User
 
 };
 
@@ -57,7 +58,7 @@ class CentroCustoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CentroCusto $centroCusto)
+    public function edit(int $id)
     {
         $centro = CentroCusto::find($id);
         return view('centro.form')
@@ -74,7 +75,7 @@ class CentroCustoController extends Controller
                ->with('atualizar','Atualizado com sucesso!');
     }
 
-    public function destroy(CentroCusto $centroCusto)
+    public function destroy(int $id)
     {
         CentroCusto::find($id)->delete();
         return redirect()

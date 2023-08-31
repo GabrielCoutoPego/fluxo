@@ -1,6 +1,13 @@
 @extends('layouts.base')
 @section('content')
-    <h1>INDEX</h1>
+    <h1>
+        Centro de Custo
+        -
+        <a class ="btn btn-primary"
+         href="{{ route('centro.create') }}">
+        Novo centro de custo
+        </a>
+    </h1>
 
     {{-- alerts --}}
     @include('layouts.partials.alerts')
@@ -11,33 +18,43 @@
             <thead>
                 <caption>LISTA DE</caption>
                 <tr>
-                    <th>#</th>
-                    <th>Column 2</th>
-                    <th>Column 3</th>
+                    <th class="col-2">#</th>
+                    <th>Centro de Custo</th>
+                    <th>Total de Lançamentos</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
+                @foreach ($centroCustos as $centro )
+
+
                 <tr>
-                    <td scope="row" class="col-1">
+                    <td scope="row">
                         <div class="flex-column">
                             {{-- ver --}}
-                            <a class="btn btn-success" href="#">
+                            <a class="btn btn-success"
+                            href="{{ route('centro.show',['id'=> $centro->id_centro_custo])}}">
                                 <i class="bi bi-eye"></i>
                             </a>
                             {{-- editar --}}
-                            <a class="btn btn-dark" href="#">
+                            <a class="btn btn-dark"
+                            href="{{ route('centro.edit',['id'=> $centro->id_centro_custo])}}">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
                             {{-- excluir --}}
                             <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#modalExcluir" data-identificacao="" data-url="">
+                                data-bs-target="#modalExcluir"
+                                data-identificacao="{{ $centro->centro_custo }}"
+                                 data-url="{{ route('centro.destroy',
+                                 ['id' => $centro->id_centro_custo]) }}">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
                     </td>
-                    <td>Item</td>
-                    <td>Item</td>
+                    <td>{{ $centro->centro_custo}}</td>
+                    <td>{{ $centro->lancamentos()->count() }}
+                    </td>
                 </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
