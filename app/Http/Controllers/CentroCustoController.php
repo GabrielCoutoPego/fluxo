@@ -7,15 +7,11 @@ use App\Models\{
     CentroCusto,
     Lancamento,
     User
-
 };
-
 
 class CentroCustoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $centroCustos = CentroCusto::orderBy('centro_custo')
@@ -24,21 +20,20 @@ class CentroCustoController extends Controller
             ->with(compact('centroCustos'));
     }
 
-
     public function create()
     {
-        $centro =null;
+        $centro = null;
         return view('centro.form')
-        ->with(compact('centro'));
-
+            ->with(compact('centro'));
     }
+
 
     public function store(Request $request)
     {
-         CentroCusto::create($request->all());
-         return redirect()
-         ->route('centro.index')
-        ->with('novo','Centro de custo cadastrado com sucesso!');
+        CentroCusto::create($request->all());
+        return redirect()
+            ->route('centro.index')
+            ->with('novo', 'Centro de Custo cadastro com sucesso!');
     }
 
     public function show(int $id)
@@ -46,24 +41,19 @@ class CentroCustoController extends Controller
         $centro = CentroCusto::with([
             'lancamentos',
             'lancamentos.tipo',
-            'lancamentos.usuaario',
-        ])
-            ->find($id)
-            ->paginate(10);
+            'lancamentos.usuario',
+        ])->find($id);
 
-            return view('centro.show')
+        return view('centro.show')
             ->with(compact('centro'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(int $id)
     {
         $centro = CentroCusto::find($id);
         return view('centro.form')
             ->with(compact('centro'));
-
     }
 
     public function update(Request $request, int $id)
@@ -71,15 +61,18 @@ class CentroCustoController extends Controller
         $centro = CentroCusto::find($id);
         $centro->update($request->all());
         return redirect()
-               ->route('centro.index')
-               ->with('atualizar','Atualizado com sucesso!');
+            ->route('centro.index')
+            ->with('atualizado', 'Atualizado com sucesso!');
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(int $id)
     {
         CentroCusto::find($id)->delete();
         return redirect()
-        ->back()
-        ->with('excluido', 'Excluido com sucesso!');
+            ->back()
+            ->with('excluido', 'Excluído com sucesso!');
     }
 }
